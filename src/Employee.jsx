@@ -1,15 +1,50 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useState } from 'react'
 
 const Employee = () => {
+
+
+const [value,setValue] = useState('')
+
+
+
+const addClick = async() =>{
+
+    try {
+
+        if(value === ""){
+        alert("please enter the employee name")
+    } else {
+        let reqBody = {
+            name : value
+        }
+
+        let apiResponse = await axios.post(" http://localhost:3000/employees",reqBody);
+        console.log(apiResponse);  
+
+        if(apiResponse.status === 201){
+            alert("emplyee successfully  added")
+        } else{
+            alert("not added .something went wrong")
+        }
+      }
+        
+    } catch (error) {
+        console.log(error);
+        alert("something went wrong")
+    }
+}
+
+
   return (
     <div style={{height:"100vh"}} className=' d-flex  flex-column '>
         {/* input area */}
         <div className='d-flex gap-3 justify-content-center'> 
             <div>
-              <input className='form-control' type="text" placeholder='Employee name here....' />
+              <input onChange={(event)=>setValue(event.target.value)} className='form-control' type="text" placeholder='Employee name here....' />
             </div>
              <div>
-                <button className='btn btn-primary'>Add Employee</button>
+                <button onClick={addClick} className='btn btn-primary'>Add Employee</button>
              </div>     
         </div>
 
